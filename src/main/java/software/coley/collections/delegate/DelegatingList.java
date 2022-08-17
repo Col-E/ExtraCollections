@@ -1,7 +1,10 @@
 package software.coley.collections.delegate;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
 
 /**
  * List type that delegates to another implementation.
@@ -11,7 +14,7 @@ import java.util.*;
  *
  * @author Matt Coley
  */
-public class DelegatingList<T> implements List<T> {
+public class DelegatingList<T> extends DelegatingCollection<T> implements List<T> {
 	private final List<T> delegate;
 
 	/**
@@ -19,82 +22,13 @@ public class DelegatingList<T> implements List<T> {
 	 * 		Delegate list to pass to.
 	 */
 	public DelegatingList(List<T> delegate) {
+		super(delegate);
 		this.delegate = Objects.requireNonNull(delegate, "Cannot delegate to a null list");
 	}
 
 	@Override
-	public int size() {
-		return delegate.size();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return delegate.isEmpty();
-	}
-
-	@Override
-	public boolean contains(Object o) {
-		return delegate.contains(o);
-	}
-
-	@Override
-	@Nonnull
-	public Iterator<T> iterator() {
-		return delegate.iterator();
-	}
-
-	@Override
-	@Nonnull
-	public Object[] toArray() {
-		return delegate.toArray();
-	}
-
-	@Override
-	@Nonnull
-	@SuppressWarnings("all")
-	public <E> E[] toArray(@Nonnull E[] a) {
-		// Suppression to remove warning about 'suspicious call to toArray(Object[])'
-		return delegate.toArray(a);
-	}
-
-	@Override
-	public boolean add(T t) {
-		return delegate.add(t);
-	}
-
-	@Override
-	public boolean remove(Object o) {
-		return delegate.remove(o);
-	}
-
-	@Override
-	public boolean containsAll(@Nonnull Collection<?> c) {
-		return delegate.containsAll(c);
-	}
-
-	@Override
-	public boolean addAll(@Nonnull Collection<? extends T> c) {
-		return delegate.addAll(c);
-	}
-
-	@Override
-	public boolean addAll(int index, @Nonnull Collection<? extends T> c) {
+	public boolean addAll(int index, Collection<? extends T> c) {
 		return delegate.addAll(index, c);
-	}
-
-	@Override
-	public boolean removeAll(@Nonnull Collection<?> c) {
-		return delegate.removeAll(c);
-	}
-
-	@Override
-	public boolean retainAll(@Nonnull Collection<?> c) {
-		return delegate.retainAll(c);
-	}
-
-	@Override
-	public void clear() {
-		delegate.clear();
 	}
 
 	@Override
@@ -143,20 +77,5 @@ public class DelegatingList<T> implements List<T> {
 	@Nonnull
 	public List<T> subList(int fromIndex, int toIndex) {
 		return delegate.subList(fromIndex, toIndex);
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		return delegate.equals(o);
-	}
-
-	@Override
-	public int hashCode() {
-		return delegate.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return delegate.toString();
 	}
 }
