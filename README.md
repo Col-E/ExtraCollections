@@ -6,6 +6,7 @@ Handy utilities for things I wish were in Java's collections api.
 
 - Delegating collections
 - Observable collections
+- Invertible Map (BiMap)
 - Common utilities for:
   - Creating singleton collections
   - Creating disjoint & union collection of two input collections
