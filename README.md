@@ -1,4 +1,4 @@
-# Extra Collections
+# Extra Collections [![](https://jitpack.io/v/Col-E/ExtraCollections.svg)](https://jitpack.io/#Col-E/ExtraCollections)
 
 Handy utilities for things I wish were in Java's collections api.
 
