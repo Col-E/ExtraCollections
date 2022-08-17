@@ -1,4 +1,4 @@
-package software.coley.collections.obsevable;
+package software.coley.collections.observable;
 
 /**
  * Listener for receiving notifications of changes to an {@link ObservableSet}.

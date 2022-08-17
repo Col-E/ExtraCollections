@@ -1,4 +1,4 @@
-package software.coley.collections.obsevable;
+package software.coley.collections.observable;
 
 import software.coley.collections.Lists;
 
