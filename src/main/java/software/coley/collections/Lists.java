@@ -123,4 +123,17 @@ public class Lists {
 		list.addAll(Arrays.asList(values));
 		return list;
 	}
+
+	/**
+	 * @param values
+	 * 		List items.
+	 * @param <T>
+	 * 		Item type.
+	 *
+	 * @return List containing the items.
+	 */
+	@SafeVarargs
+	public static <T> List<T> ofVar(T... values) {
+		return of(values);
+	}
 }

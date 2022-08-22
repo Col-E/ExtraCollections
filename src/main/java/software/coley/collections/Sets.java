@@ -103,4 +103,17 @@ public class Sets {
 		set.addAll(Arrays.asList(values));
 		return set;
 	}
+
+	/**
+	 * @param values
+	 * 		Set items.
+	 * @param <T>
+	 * 		Item type.
+	 *
+	 * @return Set containing the items.
+	 */
+	@SafeVarargs
+	public static <T> Set<T> ofVar(T... values) {
+		return of(values);
+	}
 }
