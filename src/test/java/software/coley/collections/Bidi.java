@@ -7,7 +7,6 @@ import software.coley.collections.bidi.BiMap;
 import software.coley.collections.bidi.HashBiMap;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
