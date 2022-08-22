@@ -97,6 +97,22 @@ public class Lists {
 	}
 
 	/**
+	 * @param src
+	 * 		Original list.
+	 * @param <T>
+	 * 		Type of content.
+	 *
+	 * @return Reverse ordered list.
+	 */
+	public static <T> List<T> reversed(List<T> src) {
+		List<T> copy = new ArrayList<>(src.size());
+		for (T t : src) {
+			copy.add(0, t);
+		}
+		return copy;
+	}
+
+	/**
 	 * @param value
 	 * 		List item.
 	 * @param <T>
