@@ -92,7 +92,7 @@ public class Pair<L, R> {
 	 *
 	 * @return Pair with mapped values.
 	 */
-	public <LM, RM> Pair<LM, RM> mapRight(Function<L, LM> leftMapper, Function<R, RM> rightMapper) {
+	public <LM, RM> Pair<LM, RM> mapBoth(Function<L, LM> leftMapper, Function<R, RM> rightMapper) {
 		return new Pair<>(leftMapper.apply(left), rightMapper.apply(right));
 	}
 
@@ -102,7 +102,7 @@ public class Pair<L, R> {
 	 *
 	 * @return {@code true} if the {@link Map#get(Object)} of the {@link #getLeft()} is {@link #getRight()}.
 	 */
-	public boolean mapContains(Map<L, R> map) {
+	public boolean mapContainsKeyValue(Map<L, R> map) {
 		if (map.containsKey(left))
 			return Objects.equals(map.get(left), right);
 		return false;
@@ -147,7 +147,9 @@ public class Pair<L, R> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(left, right);
+		int result = left != null ? left.hashCode() : 0;
+		result = 31 * result + (right != null ? right.hashCode() : 0);
+		return result;
 	}
 
 	@Override
