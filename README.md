@@ -11,6 +11,6 @@ Handy utilities for things I wish were in Java's collections api.
   - Treated as additions to `Map<K, Tree<K,V>>`
 - Tuples
   - Pair
-- Common utilities for:
+- Common utilities for `List`, `Map`, and `Set` types with features such as:
   - Creating singleton collections
   - Creating disjoint & union collection of two input collections
