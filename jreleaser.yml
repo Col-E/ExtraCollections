@@ -1,0 +1,31 @@
+project:
+  name: extra-collections
+  description: Extra useful collection types and utilities.
+  longDescription: Extra useful collection types and utilities.
+  links:
+    homepage: https://github.com/Col-E/ExtraCollections
+  authors:
+    - Matt Coley
+  license: MIT
+  inceptionYear: 2022
+  stereotype: none
+  java:
+    version: 11
+    groupId: software.coley
+    artifactId: extra-collections
+
+release:
+  github:
+    overwrite: true
+    tagName: '{{projectVersion}}'
+    changelog:
+      formatted: ALWAYS
+      preset: conventional-commits
+      contributors:
+        format: '- {{contributorName}}{{#contributorUsernameAsLink}} ({{.}}){{/contributorUsernameAsLink}}'
+
+distributions:
+  dist:
+    type: SINGLE_JAR
+    artifacts:
+      - path: target/{{projectName}}-{{projectVersion}}.jar
