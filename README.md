@@ -1,4 +1,4 @@
-# Extra Collections [![](https://jitpack.io/v/Col-E/ExtraCollections.svg)](https://jitpack.io/#Col-E/ExtraCollections)
+# Extra Collections [![](https://jitpack.io/v/Col-E/ExtraCollections.svg)](https://jitpack.io/#Col-E/ExtraCollections) ![](https://github.com/Col-E/ExtraCollections/actions/workflows/display_test_results.yml/badge.svg)
 
 Handy utilities for things I wish were in Java's collections api.
 
