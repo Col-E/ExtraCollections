@@ -8,6 +8,28 @@
     <artifactId>extra-collections</artifactId>
     <version>1.2.1</version>
 
+    <name>Extra Collections</name>
+    <description>Extra useful collection types and utilities</description>
+    <url>https://github.com/Col-E/ExtraCollections</url>
+
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>https://spdx.org/licenses/MIT.html</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/Col-E/ExtraCollections.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Col-E/ExtraCollections.git</developerConnection>
+        <url>https://github.com/Col-E/ExtraCollections</url>
+    </scm>
+    <developers>
+        <developer>
+            <name>Matt Coley</name>
+            <email>mcoley2@gmu.edu</email>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
