@@ -219,4 +219,20 @@ public class Maps {
 		result.put(key, value);
 		return result;
 	}
+
+	/**
+	 * @param map
+	 * 		Map input.
+	 * @param <K>
+	 * 		Key type.
+	 * @param <V>
+	 * 		Value type.
+	 *
+	 * @return Naive map inversion.
+	 */
+	public static <K, V> Map<V, K> reverse(Map<K, V> map) {
+		Map<V, K> result = new HashMap<>();
+		map.forEach((k, v) -> result.put(v, k));
+		return result;
+	}
 }
