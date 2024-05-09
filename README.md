@@ -7,6 +7,13 @@ Handy utilities for things I wish were in Java's collections api.
 - Delegating collections
 - Observable collections
 - Invertible Map (BiMap)
+- Boxes
+  - Object `T`
+  - `int`
+  - `long`
+  - `float`
+  - `double`
+  - `char`
 - Trees
   - Treated as additions to `Map<K, Tree<K,V>>`
 - Tuples
