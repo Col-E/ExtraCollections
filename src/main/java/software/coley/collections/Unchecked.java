@@ -4,6 +4,9 @@ import software.coley.collections.func.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 import java.util.function.*;
 
 /**
@@ -212,5 +215,62 @@ public class Unchecked {
 	@SuppressWarnings("unchecked")
 	public static <X extends Throwable> void propagate(@Nonnull Throwable t) throws X {
 		throw (X) t;
+	}
+
+	/**
+	 * Runs an action via a consumer on each item of the collection. If an error occurs for a given item,
+	 * it is passed along to the error consumer along with the error before moving onto the next item in
+	 * the collection.
+	 *
+	 * @param collection
+	 * 		Collection to iterate over.
+	 * @param consumer
+	 * 		Action to run on each item.
+	 * @param errorConsumer
+	 * 		Error handling taking in the item that the consumer failed on, and the error thrown.
+	 * @param <T>
+	 * 		Item type.
+	 */
+	public static <T> void checkedForEach(@Nonnull Collection<T> collection,
+	                                      @Nonnull UncheckedConsumer<T> consumer,
+	                                      @Nonnull BiConsumer<T, Throwable> errorConsumer) {
+		// Iterate over a shallow-copy in case the consumer updates the original collection.
+		for (T item : new ArrayList<>(collection)) {
+			try {
+				consumer.accept(item);
+			} catch (Throwable t) {
+				errorConsumer.accept(item, t);
+			}
+		}
+	}
+
+	/**
+	 * Runs an action via a bi-consumer on each entry of the map. If an error occurs for a given entry,
+	 * it is passed along to the error consumer along with the error before moving onto the next item in the map.
+	 *
+	 * @param map
+	 * 		Map to iterate over.
+	 * @param consumer
+	 * 		Action to run on each item.
+	 * @param errorConsumer
+	 * 		Error handling taking in the entry that the consumer failed on, and the error thrown.
+	 * @param <K>
+	 * 		Map key type.
+	 * @param <V>
+	 * 		Map value type.
+	 */
+	public static <K, V> void checkedForEach(@Nonnull Map<K, V> map,
+	                                         @Nonnull BiConsumer<K, V> consumer,
+	                                         @Nonnull TriConsumer<K, V, Throwable> errorConsumer) {
+		// Iterate over a shallow-copy in case the consumer updates the original collection.
+		for (Map.Entry<K, V> entry : new ArrayList<>(map.entrySet())) {
+			K key = entry.getKey();
+			V value = entry.getValue();
+			try {
+				consumer.accept(key, value);
+			} catch (Throwable t) {
+				errorConsumer.accept(key, value, t);
+			}
+		}
 	}
 }

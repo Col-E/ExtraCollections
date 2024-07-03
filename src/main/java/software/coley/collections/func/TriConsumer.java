@@ -1,7 +1,7 @@
 package software.coley.collections.func;
 
 /**
- * Generic function for 3 arguments.
+ * Generic consumer for 3 arguments.
  *
  * @param <A>
  * 		First parameter type.
@@ -9,12 +9,10 @@ package software.coley.collections.func;
  * 		Second parameter type.
  * @param <C>
  * 		Third parameter type.
- * @param <R>
- * 		Return type.
  *
  * @author Matt Coley
  */
-public interface TriFunction<A, B, C, R> {
+public interface TriConsumer<A, B, C> {
 	/**
 	 * @param a
 	 * 		First arg.
@@ -22,8 +20,6 @@ public interface TriFunction<A, B, C, R> {
 	 * 		Second arg.
 	 * @param c
 	 * 		Third arg.
-	 *
-	 * @return Return value.
 	 */
-	R apply(A a, B b, C c);
+	void accept(A a, B b, C c);
 }
