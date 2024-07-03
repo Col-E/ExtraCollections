@@ -1,5 +1,8 @@
 package software.coley.collections;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -31,10 +34,11 @@ public class Maps {
 	 *
 	 * @return New map with value inserted.
 	 */
-	public static <K, V, M extends Map<K, V>> M add(Supplier<M> resultMapSupplier,
-													Map<K, V> map, K key, V value) {
+	@Nonnull
+	public static <K, V, M extends Map<K, V>> M add(@Nonnull Supplier<M> resultMapSupplier,
+	                                                @Nullable Map<K, V> map, K key, V value) {
 		M result = resultMapSupplier.get();
-		result.putAll(map);
+		if (map != null) result.putAll(map);
 		result.put(key, value);
 		return result;
 	}
@@ -54,7 +58,10 @@ public class Maps {
 	 *
 	 * @return New map with value inserted.
 	 */
-	public static <K, V> Map<K, V> add(Map<K, V> map, K key, V value) {
+	@Nonnull
+	public static <K, V> Map<K, V> add(@Nullable Map<K, V> map, K key, V value) {
+		if (map == null) return Collections.singletonMap(key, value);
+
 		Map<K, V> result = new HashMap<>(map);
 		result.put(key, value);
 		return result;
@@ -77,11 +84,12 @@ public class Maps {
 	 *
 	 * @return New map with additional entries.
 	 */
-	public static <K, V, M extends Map<K, V>> M combine(Supplier<M> resultMapSupplier,
-														Map<K, V> src1, Map<K, V> src2) {
+	@Nonnull
+	public static <K, V, M extends Map<K, V>> M combine(@Nonnull Supplier<M> resultMapSupplier,
+	                                                    @Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
 		M result = resultMapSupplier.get();
-		result.putAll(src1);
-		result.putAll(src2);
+		if (src1 != null) result.putAll(src1);
+		if (src2 != null) result.putAll(src2);
 		return result;
 	}
 
@@ -97,9 +105,14 @@ public class Maps {
 	 *
 	 * @return New map with additional entries.
 	 */
-	public static <K, V> Map<K, V> combine(Map<K, V> src1, Map<K, V> src2) {
+	@Nonnull
+	public static <K, V> Map<K, V> combine(@Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
+		if (src1 == null) {
+			if (src2 == null) return Collections.emptyMap();
+			return src2;
+		}
 		Map<K, V> map = new HashMap<>(src1);
-		map.putAll(src2);
+		if (src2 != null) map.putAll(src2);
 		return map;
 	}
 
@@ -120,16 +133,19 @@ public class Maps {
 	 *
 	 * @return New map containing only the entries <i>(by keys)</i> not shared by the two maps.
 	 */
-	public static <K, V, M extends Map<K, V>> M distinct(Supplier<M> resultMapSupplier,
-														 Map<K, V> src1, Map<K, V> src2) {
+	@Nonnull
+	public static <K, V, M extends Map<K, V>> M distinct(@Nonnull Supplier<M> resultMapSupplier,
+	                                                     @Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
 		M map1 = resultMapSupplier.get();
-		map1.putAll(src1);
-		for (K key : src2.keySet())
-			map1.remove(key);
+		if (src1 != null) map1.putAll(src1);
+		if (src2 != null)
+			for (K key : src2.keySet())
+				map1.remove(key);
 		M map2 = resultMapSupplier.get();
-		map2.putAll(src2);
-		for (K key : src1.keySet())
-			map2.remove(key);
+		if (src2 != null) map2.putAll(src2);
+		if (src1 != null)
+			for (K key : src1.keySet())
+				map2.remove(key);
 		return combine(resultMapSupplier, map1, map2);
 	}
 
@@ -145,13 +161,29 @@ public class Maps {
 	 *
 	 * @return New map containing only the entries <i>(by keys)</i> not shared by the two maps.
 	 */
-	public static <K, V> Map<K, V> distinct(Map<K, V> src1, Map<K, V> src2) {
-		Map<K, V> map1 = new HashMap<>(src1);
-		for (K key : src2.keySet())
-			map1.remove(key);
-		Map<K, V> map2 = new HashMap<>(src2);
-		for (K key : src1.keySet())
-			map2.remove(key);
+	@Nonnull
+	public static <K, V> Map<K, V> distinct(@Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
+		Map<K, V> map1;
+		Map<K, V> map2;
+
+		if (src1 != null) {
+			map1 = new HashMap<>(src1);
+			if (src2 != null)
+				for (K key : src2.keySet())
+					map1.remove(key);
+		} else {
+			map1 = null;
+		}
+
+		if (src2 != null) {
+			map2 = new HashMap<>(src2);
+			if (src1 != null)
+				for (K key : src1.keySet())
+					map2.remove(key);
+		} else {
+			map2 = null;
+		}
+
 		return combine(map1, map2);
 	}
 
@@ -172,13 +204,16 @@ public class Maps {
 	 *
 	 * @return New map containing only the entries <i>(by keys)</i> shared by the two maps.
 	 */
-	public static <K, V, M extends Map<K, V>> M union(Supplier<M> resultMapSupplier,
-													  Map<K, V> src1, Map<K, V> src2) {
+	@Nonnull
+	public static <K, V, M extends Map<K, V>> M union(@Nonnull Supplier<M> resultMapSupplier,
+	                                                  @Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
 		M result = resultMapSupplier.get();
-		result.putAll(src1);
-		for (K key : result.keySet())
-			if (!src2.containsKey(key))
-				result.remove(key);
+		if (src1 != null)
+			result.putAll(src1);
+		if (src2 != null)
+			for (K key : result.keySet())
+				if (!src2.containsKey(key))
+					result.remove(key);
 		return result;
 	}
 
@@ -194,7 +229,11 @@ public class Maps {
 	 *
 	 * @return New map containing only the entries <i>(by keys)</i> shared by the two maps.
 	 */
-	public static <K, V> Map<K, V> union(Map<K, V> src1, Map<K, V> src2) {
+	@Nonnull
+	public static <K, V> Map<K, V> union(@Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
+		if (src1 == null || src1.isEmpty() || src2 == null || src2.isEmpty())
+			return Collections.emptyMap();
+
 		Map<K, V> result = new HashMap<>(src1);
 		for (K key : result.keySet())
 			if (!src2.containsKey(key))
@@ -214,10 +253,9 @@ public class Maps {
 	 *
 	 * @return Map of one entry.
 	 */
+	@Nonnull
 	public static <K, V> Map<K, V> of(K key, V value) {
-		Map<K, V> result = new HashMap<>(1);
-		result.put(key, value);
-		return result;
+		return Collections.singletonMap(key, value);
 	}
 
 	/**
@@ -230,7 +268,10 @@ public class Maps {
 	 *
 	 * @return Naive map inversion.
 	 */
-	public static <K, V> Map<V, K> reverse(Map<K, V> map) {
+	@Nonnull
+	public static <K, V> Map<V, K> reverse(@Nullable Map<K, V> map) {
+		if (map == null) return Collections.emptyMap();
+		
 		Map<V, K> result = new HashMap<>();
 		map.forEach((k, v) -> result.put(v, k));
 		return result;

@@ -23,7 +23,12 @@ public class Lists {
 	 * @return New list with additional item.
 	 */
 	@Nonnull
-	public static <T> List<T> add(@Nonnull List<T> src, @Nullable T additional) {
+	public static <T> List<T> add(@Nullable List<T> src, @Nullable T additional) {
+		if (src == null) {
+			if (additional == null) return Collections.emptyList();
+			return Collections.singletonList(additional);
+		}
+
 		if (src.isEmpty()) return Collections.singletonList(additional);
 
 		List<T> list = new ArrayList<>(src);
@@ -42,7 +47,10 @@ public class Lists {
 	 * @return New list with additional items.
 	 */
 	@Nonnull
-	public static <T> List<T> combine(@Nonnull List<T> src1, @Nonnull List<T> src2) {
+	public static <T> List<T> combine(@Nullable List<T> src1, @Nullable List<T> src2) {
+		if (src1 == null) src1 = Collections.emptyList();
+		if (src2 == null) src2 = Collections.emptyList();
+
 		if (src2.isEmpty()) return src1;
 		if (src1.isEmpty()) return Collections.emptyList();
 
@@ -61,8 +69,8 @@ public class Lists {
 	 * @return List with duplicates removed.
 	 */
 	@Nonnull
-	public static <T> List<T> distinct(@Nonnull List<T> src) {
-		if (src.isEmpty()) return Collections.emptyList();
+	public static <T> List<T> distinct(@Nullable List<T> src) {
+		if (src == null || src.isEmpty()) return Collections.emptyList();
 
 		List<T> copy = new ArrayList<>();
 		for (T t : src) {
@@ -84,11 +92,11 @@ public class Lists {
 	 * @return New list containing only the items not shared by the two lists.
 	 */
 	@Nonnull
-	public static <T> List<T> disjoint(@Nonnull List<T> src1, @Nonnull List<T> src2) {
-		List<T> results1 = new ArrayList<>(src1);
-		List<T> results2 = new ArrayList<>(src2);
-		results1.removeAll(src2);
-		results2.removeAll(src1);
+	public static <T> List<T> disjoint(@Nullable List<T> src1, @Nullable List<T> src2) {
+		List<T> results1 = src1 == null ? noopList() : new ArrayList<>(src1);
+		List<T> results2 = src2 == null ? noopList() : new ArrayList<>(src2);
+		if (src2 != null) results1.removeAll(src2);
+		if (src1 != null) results2.removeAll(src1);
 		return combine(results1, results2);
 	}
 
@@ -103,7 +111,12 @@ public class Lists {
 	 * @return List of containing only the items shared by the two lists.
 	 */
 	@Nonnull
-	public static <T> List<T> union(@Nonnull List<T> src1, @Nonnull List<T> src2) {
+	public static <T> List<T> union(@Nullable List<T> src1, @Nullable List<T> src2) {
+		if (src1 == null)
+			return src2 == null ? Collections.emptyList() : src2;
+		if (src2 == null)
+			return src1;
+
 		List<T> results = new ArrayList<>(src1);
 		results.retainAll(src2);
 		return distinct(results);
@@ -245,5 +258,46 @@ public class Lists {
 			if (cmp != 0) return cmp;
 		}
 		return 0;
+	}
+
+	/**
+	 * @param <T>
+	 * 		Inferred type.
+	 *
+	 * @return List that does not accept new items.
+	 */
+	@Nonnull
+	public static <T> List<T> noopList() {
+		return new AbstractList<T>() {
+			@Override
+			public boolean add(T t) {
+				return false;
+			}
+
+			@Override
+			public T set(int index, T element) {
+				return null;
+			}
+
+			@Override
+			public void add(int index, T element) {
+				// no-op
+			}
+
+			@Override
+			public T remove(int index) {
+				return null;
+			}
+
+			@Override
+			public T get(int index) {
+				return null;
+			}
+
+			@Override
+			public int size() {
+				return 0;
+			}
+		};
 	}
 }

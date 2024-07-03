@@ -1,5 +1,7 @@
 package software.coley.collections;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +24,7 @@ public class Sets {
 	 *
 	 * @return New set with additional item.
 	 */
-	public static <T> Set<T> add(Set<T> src, T additional) {
+	public static <T> Set<T> add(@Nonnull Set<T> src, @Nullable T additional) {
 		Set<T> set = new HashSet<>(src);
 		set.add(additional);
 		return set;
