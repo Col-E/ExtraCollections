@@ -1,5 +1,7 @@
 package software.coley.collections.delegate;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.SortedSet;
 
@@ -18,37 +20,43 @@ public class DelegatingSortedSet<T> extends DelegatingSet<T> implements SortedSe
 	 * @param delegate
 	 * 		Delegate set to pass to.
 	 */
-	public DelegatingSortedSet(SortedSet<T> delegate) {
+	public DelegatingSortedSet(@Nonnull SortedSet<T> delegate) {
 		super(delegate);
 		this.delegate = delegate;
 	}
 
 	@Override
+	@Nullable
 	public Comparator<? super T> comparator() {
 		return delegate.comparator();
 	}
 
 	@Override
+	@Nonnull
 	public SortedSet<T> subSet(T fromElement, T toElement) {
 		return delegate.subSet(fromElement, toElement);
 	}
 
 	@Override
+	@Nonnull
 	public SortedSet<T> headSet(T toElement) {
 		return delegate.headSet(toElement);
 	}
 
 	@Override
+	@Nonnull
 	public SortedSet<T> tailSet(T fromElement) {
 		return delegate.tailSet(fromElement);
 	}
 
 	@Override
+	@Nullable
 	public T first() {
 		return delegate.first();
 	}
 
 	@Override
+	@Nullable
 	public T last() {
 		return delegate.last();
 	}

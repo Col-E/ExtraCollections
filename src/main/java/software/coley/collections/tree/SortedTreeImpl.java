@@ -2,6 +2,7 @@ package software.coley.collections.tree;
 
 import software.coley.collections.delegate.DelegatingSortedMap;
 
+import javax.annotation.Nonnull;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Supplier;
@@ -86,22 +87,26 @@ public class SortedTreeImpl<K, V> extends DelegatingSortedMap<K, Tree<K, V>> imp
 		return parent;
 	}
 
+	@Nonnull
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends Tree<K, V>> T createSubTree(V value) {
 		return (T) new SortedTreeImpl<>(delegateSupplier, this, value);
 	}
 
+	@Nonnull
 	@Override
 	public SortedTree<K, V> subTree(K fromKey, K toKey) {
 		return from(subMap(fromKey, toKey));
 	}
 
+	@Nonnull
 	@Override
 	public SortedTree<K, V> headTree(K toKey) {
 		return from(headMap(toKey));
 	}
 
+	@Nonnull
 	@Override
 	public SortedTree<K, V> tailTree(K fromKey) {
 		return from(tailMap(fromKey));

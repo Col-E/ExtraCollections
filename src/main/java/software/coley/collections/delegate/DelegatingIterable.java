@@ -1,5 +1,6 @@
 package software.coley.collections.delegate;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -18,11 +19,12 @@ public class DelegatingIterable<T> implements Iterable<T> {
 	 * @param delegate
 	 * 		Delegate iterable to pass to.
 	 */
-	public DelegatingIterable(Iterable<T> delegate) {
+	public DelegatingIterable(@Nonnull Iterable<T> delegate) {
 		this.delegate = Objects.requireNonNull(delegate, "Cannot delegate to a null iterable");
 	}
 
 	@Override
+	@Nonnull
 	public Iterator<T> iterator() {
 		return delegate.iterator();
 	}

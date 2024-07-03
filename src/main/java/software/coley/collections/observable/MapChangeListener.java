@@ -1,5 +1,7 @@
 package software.coley.collections.observable;
 
+import javax.annotation.Nonnull;
+
 /**
  * Listener for receiving notifications of changes to an {@link ObservableList}.
  *
@@ -17,5 +19,5 @@ public interface MapChangeListener<K, V> {
 	 * @param change
 	 * 		Description of changes.
 	 */
-	void onMapChanged(ObservableMap<K, V> source, MapChange<K, V> change);
+	void onMapChanged(@Nonnull ObservableMap<K, V> source, @Nonnull MapChange<K, V> change);
 }

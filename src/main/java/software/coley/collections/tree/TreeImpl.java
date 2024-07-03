@@ -2,6 +2,7 @@ package software.coley.collections.tree;
 
 import software.coley.collections.delegate.DelegatingMap;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -72,6 +73,7 @@ public class TreeImpl<K, V> extends DelegatingMap<K, Tree<K, V>> implements Tree
 		return parent;
 	}
 
+	@Nonnull
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends Tree<K, V>> T createSubTree(V value) {

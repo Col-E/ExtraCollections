@@ -4,6 +4,7 @@ import software.coley.collections.Maps;
 import software.coley.collections.delegate.DelegatingMap;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ObservableMap<K, V> extends DelegatingMap<K, V> {
 	 * New observable map with no pre-existing items.
 	 */
 	public ObservableMap() {
-		// We use an hash-map backing implementation since we want delegate to be modifiable (as opposed
+		// We use a hash-map backing implementation since we want delegate to be modifiable (as opposed
 		// to using something like Collections.emptyMap()).
 		this(HashMap::new);
 	}
@@ -40,7 +41,7 @@ public class ObservableMap<K, V> extends DelegatingMap<K, V> {
 	 * @param items
 	 * 		Existing items to create as an initial state.
 	 */
-	public ObservableMap(Map<K, V> items) {
+	public ObservableMap(@Nonnull Map<K, V> items) {
 		// We wrap the incoming map just to ensure our delegate can modify the map without unintended effects
 		// if the user passes a map intended to be immutable.
 		this(() -> new HashMap<>(items));
@@ -53,7 +54,7 @@ public class ObservableMap<K, V> extends DelegatingMap<K, V> {
 	 * 		Factory to provide a backing map implementation.
 	 * 		Intended to be a single call to a map implementation constructor with zero ties to outside state.
 	 */
-	public ObservableMap(Supplier<Map<K, V>> factory) {
+	public ObservableMap(@Nonnull Supplier<Map<K, V>> factory) {
 		super(factory.get());
 	}
 
@@ -63,20 +64,9 @@ public class ObservableMap<K, V> extends DelegatingMap<K, V> {
 	 * @param listener
 	 * 		Listener to add.
 	 */
-	public void addChangeListener(MapChangeListener<K, V> listener) {
-		if (listener != null) {
+	public void addChangeListener(@Nullable MapChangeListener<K, V> listener) {
+		if (listener != null)
 			listeners.add(listener);
-		}
-	}
-
-	/**
-	 * Called AFTER an operation completes.
-	 *
-	 * @param change
-	 * 		Change to post to subscribed listeners.
-	 */
-	private void post(MapChange<K, V> change) {
-		listeners.forEach(listener -> listener.onMapChanged(this, change));
 	}
 
 	/**
@@ -87,8 +77,18 @@ public class ObservableMap<K, V> extends DelegatingMap<K, V> {
 	 *
 	 * @return {@code true} on removal success.
 	 */
-	public boolean removeChangeListener(MapChangeListener<K, V> listener) {
+	public boolean removeChangeListener(@Nullable MapChangeListener<K, V> listener) {
 		return listeners.remove(listener);
+	}
+
+	/**
+	 * Called AFTER an operation completes.
+	 *
+	 * @param change
+	 * 		Change to post to subscribed listeners.
+	 */
+	private void post(@Nonnull MapChange<K, V> change) {
+		listeners.forEach(listener -> listener.onMapChanged(this, change));
 	}
 
 	@Override

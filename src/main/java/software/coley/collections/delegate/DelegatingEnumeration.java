@@ -1,5 +1,6 @@
 package software.coley.collections.delegate;
 
+import javax.annotation.Nonnull;
 import java.util.Enumeration;
 
 /**
@@ -17,7 +18,7 @@ public class DelegatingEnumeration<T> implements Enumeration<T> {
 	 * @param delegate
 	 * 		Delegate enumeration to pass to.
 	 */
-	public DelegatingEnumeration(Enumeration<T> delegate) {
+	public DelegatingEnumeration(@Nonnull Enumeration<T> delegate) {
 		this.delegate = delegate;
 	}
 

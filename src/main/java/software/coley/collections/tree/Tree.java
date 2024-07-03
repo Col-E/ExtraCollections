@@ -2,6 +2,8 @@ package software.coley.collections.tree;
 
 import software.coley.collections.Sets;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -24,11 +26,13 @@ public interface Tree<K, V> extends Map<K, Tree<K, V>> {
 	/**
 	 * @return Value of current tree node.
 	 */
+	@Nullable
 	V getValue();
 
 	/**
 	 * @return Parent tree.
 	 */
+	@Nullable
 	Tree<K, V> getParent();
 
 	/**
@@ -39,7 +43,8 @@ public interface Tree<K, V> extends Map<K, Tree<K, V>> {
 	 *
 	 * @return New sub-tree linked to this tree.
 	 */
-	<T extends Tree<K, V>> T createSubTree(V value);
+	@Nonnull
+	<T extends Tree<K, V>> T createSubTree(@Nullable V value);
 
 	/**
 	 * @param key
@@ -51,6 +56,7 @@ public interface Tree<K, V> extends Map<K, Tree<K, V>> {
 	 *
 	 * @return Prior tree associated with key.
 	 */
+	@Nullable
 	@SuppressWarnings("unchecked")
 	default <T extends Tree<K, V>> T putTree(K key, V value) {
 		T subTree = createSubTree(value);
@@ -63,6 +69,7 @@ public interface Tree<K, V> extends Map<K, Tree<K, V>> {
 	 *
 	 * @return Sub-trees that contain other sub-trees.
 	 */
+	@Nonnull
 	@SuppressWarnings("unchecked")
 	default <T extends Tree<K, V>> Set<T> getBranches() {
 		return (Set<T>) values().stream()
@@ -76,6 +83,7 @@ public interface Tree<K, V> extends Map<K, Tree<K, V>> {
 	 *
 	 * @return Sub-trees that contain no sub-trees.
 	 */
+	@Nonnull
 	@SuppressWarnings("unchecked")
 	default <T extends Tree<K, V>> Set<T> getLeaves() {
 		return (Set<T>) values().stream()
@@ -89,6 +97,7 @@ public interface Tree<K, V> extends Map<K, Tree<K, V>> {
 	 *
 	 * @return All sub-trees, including non-direct ones, that contain no sub-trees.
 	 */
+	@Nonnull
 	@SuppressWarnings("unchecked")
 	default <T extends Tree<K, V>> Set<T> getAllLeaves() {
 		if (isLeaf())

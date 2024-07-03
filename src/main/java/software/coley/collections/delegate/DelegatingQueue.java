@@ -1,5 +1,6 @@
 package software.coley.collections.delegate;
 
+import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.Queue;
 
@@ -18,7 +19,7 @@ public class DelegatingQueue<T> extends DelegatingCollection<T> implements Queue
 	 * @param delegate
 	 * 		Delegate queue to pass to.
 	 */
-	public DelegatingQueue(Queue<T> delegate) {
+	public DelegatingQueue(@Nonnull Queue<T> delegate) {
 		super(delegate);
 		this.delegate = Objects.requireNonNull(delegate, "Cannot delegate to a null queue");
 	}

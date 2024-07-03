@@ -2,6 +2,8 @@ package software.coley.collections.observable;
 
 import software.coley.collections.Lists;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class ListChange<T> extends Change<T, List<T>> {
 	 * @param end
 	 * 		End index in the {@link ObservableList} of the change.
 	 */
-	public ListChange(List<T> added, List<T> removed, int start, int end) {
+	public ListChange(@Nonnull List<T> added, @Nonnull List<T> removed, int start, int end) {
 		super(added, removed);
 		this.start = start;
 		this.end = end;
@@ -43,7 +45,8 @@ public class ListChange<T> extends Change<T, List<T>> {
 	 *
 	 * @return Change of the single addition.
 	 */
-	public static <T> ListChange<T> addition(T added, int from) {
+	@Nonnull
+	public static <T> ListChange<T> addition(@Nullable T added, int from) {
 		return addition(Lists.of(added), from);
 	}
 
@@ -57,7 +60,8 @@ public class ListChange<T> extends Change<T, List<T>> {
 	 *
 	 * @return Change of the multiple additions.
 	 */
-	public static <T> ListChange<T> addition(List<T> added, int from) {
+	@Nonnull
+	public static <T> ListChange<T> addition(@Nonnull List<T> added, int from) {
 		return new ListChange<>(added, Collections.emptyList(), from, from + added.size());
 	}
 
@@ -71,7 +75,8 @@ public class ListChange<T> extends Change<T, List<T>> {
 	 *
 	 * @return Change of the single removal.
 	 */
-	public static <T> ListChange<T> removal(T removed, int from) {
+	@Nonnull
+	public static <T> ListChange<T> removal(@Nullable T removed, int from) {
 		return removal(Lists.of(removed), from);
 	}
 
@@ -85,7 +90,8 @@ public class ListChange<T> extends Change<T, List<T>> {
 	 *
 	 * @return Change of the multiple removals.
 	 */
-	public static <T> ListChange<T> removal(List<T> removed, int from) {
+	@Nonnull
+	public static <T> ListChange<T> removal(@Nonnull List<T> removed, int from) {
 		return new ListChange<>(Collections.emptyList(), removed, from, from + removed.size());
 	}
 

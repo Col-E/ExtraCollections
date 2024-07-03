@@ -3,6 +3,7 @@ package software.coley.collections.observable;
 import software.coley.collections.delegate.DelegatingList;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +36,7 @@ public class ObservableList<T> extends DelegatingList<T> {
 	 * @param items
 	 * 		Existing items to create as an initial state.
 	 */
-	public ObservableList(Collection<T> items) {
+	public ObservableList(@Nonnull Collection<T> items) {
 		// We wrap the incoming list just to ensure our delegate can modify the list without unintended effects
 		// if the user passes a list intended to be immutable.
 		this(() -> new ArrayList<>(items));
@@ -48,7 +49,7 @@ public class ObservableList<T> extends DelegatingList<T> {
 	 * 		Factory to provide a backing list implementation.
 	 * 		Intended to be a single call to a list implementation constructor with zero ties to outside state.
 	 */
-	public ObservableList(Supplier<List<T>> factory) {
+	public ObservableList(@Nonnull Supplier<List<T>> factory) {
 		super(factory.get());
 	}
 
@@ -58,10 +59,9 @@ public class ObservableList<T> extends DelegatingList<T> {
 	 * @param listener
 	 * 		Listener to add.
 	 */
-	public void addChangeListener(ListChangeListener<T> listener) {
-		if (listener != null) {
+	public void addChangeListener(@Nullable ListChangeListener<T> listener) {
+		if (listener != null)
 			listeners.add(listener);
-		}
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class ObservableList<T> extends DelegatingList<T> {
 	 *
 	 * @return {@code true} on removal success.
 	 */
-	public boolean removeChangeListener(ListChangeListener<T> listener) {
+	public boolean removeChangeListener(@Nullable ListChangeListener<T> listener) {
 		return listeners.remove(listener);
 	}
 
@@ -82,7 +82,7 @@ public class ObservableList<T> extends DelegatingList<T> {
 	 * @param change
 	 * 		Change to post to subscribed listeners.
 	 */
-	private void post(ListChange<T> change) {
+	private void post(@Nonnull ListChange<T> change) {
 		listeners.forEach(listener -> listener.onListChanged(this, change));
 	}
 

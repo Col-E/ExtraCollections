@@ -20,7 +20,7 @@ public class DelegatingCollection<T> implements Collection<T> {
 	 * @param delegate
 	 * 		Delegate collection to pass to.
 	 */
-	public DelegatingCollection(Collection<T> delegate) {
+	public DelegatingCollection(@Nonnull Collection<T> delegate) {
 		this.delegate = Objects.requireNonNull(delegate, "Cannot delegate to a null collection");
 	}
 
@@ -40,16 +40,19 @@ public class DelegatingCollection<T> implements Collection<T> {
 	}
 
 	@Override
+	@Nonnull
 	public Iterator<T> iterator() {
 		return delegate.iterator();
 	}
 
 	@Override
+	@Nonnull
 	public Object[] toArray() {
 		return delegate.toArray();
 	}
 
 	@Override
+	@Nonnull
 	@SuppressWarnings("all")
 	public <T1> T1[] toArray(@Nonnull T1[] a) {
 		return delegate.toArray(a);

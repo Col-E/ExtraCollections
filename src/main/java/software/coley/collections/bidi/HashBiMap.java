@@ -1,5 +1,6 @@
 package software.coley.collections.bidi;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 
 /**
@@ -24,10 +25,11 @@ public class HashBiMap<K, V> extends AbstractBiMap<K, V> {
 	 * @param delegate
 	 * 		Delegate map to pass to.
 	 */
-	public HashBiMap(HashMap<K, V> delegate) {
+	public HashBiMap(@Nonnull HashMap<K, V> delegate) {
 		super(delegate);
 	}
 
+	@Nonnull
 	@Override
 	protected <K1, V1> AbstractBiMap<K1, V1> createImpl() {
 		return new HashBiMap<>();

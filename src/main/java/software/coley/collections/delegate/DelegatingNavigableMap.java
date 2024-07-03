@@ -1,5 +1,6 @@
 package software.coley.collections.delegate;
 
+import javax.annotation.Nonnull;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
@@ -20,7 +21,7 @@ public class DelegatingNavigableMap<K, V> extends DelegatingSortedMap<K, V> impl
 	 * @param delegate
 	 * 		Delegate map to pass to.
 	 */
-	public DelegatingNavigableMap(NavigableMap<K, V> delegate) {
+	public DelegatingNavigableMap(@Nonnull NavigableMap<K, V> delegate) {
 		super(delegate);
 		this.delegate = delegate;
 	}

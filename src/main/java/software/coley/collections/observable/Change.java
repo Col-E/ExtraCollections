@@ -34,14 +34,14 @@ public abstract class Change<T, C extends Collection<T>> {
 	 * @return {@code true} when there were added items in the change.
 	 */
 	public boolean wasAddition() {
-		return added.size() > 0;
+		return !added.isEmpty();
 	}
 
 	/**
 	 * @return {@code true} when there were removed items in the change.
 	 */
 	public boolean wasRemoval() {
-		return removed.size() > 0;
+		return !removed.isEmpty();
 	}
 
 	/**

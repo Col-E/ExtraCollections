@@ -1,5 +1,6 @@
 package software.coley.collections.observable;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -25,13 +26,14 @@ public class MapChange<K, V> extends SetChange<V> {
 	 * @param removedEntries
 	 * 		Removed map entries.
 	 */
-	public MapChange(Set<Entry<K, V>> addedEntries, Set<Entry<K, V>> removedEntries) {
+	public MapChange(@Nonnull Set<Entry<K, V>> addedEntries, @Nonnull Set<Entry<K, V>> removedEntries) {
 		super(extractValues(addedEntries), extractValues(removedEntries));
 		this.addedEntries = addedEntries;
 		this.removedEntries = removedEntries;
 	}
 
-	private static <K, V> Set<V> extractValues(Set<Entry<K, V>> entries) {
+	@Nonnull
+	private static <K, V> Set<V> extractValues(@Nonnull Set<Entry<K, V>> entries) {
 		return entries.stream()
 				.map(Entry::getValue)
 				.collect(Collectors.toSet());
@@ -47,7 +49,8 @@ public class MapChange<K, V> extends SetChange<V> {
 	 *
 	 * @return Change of the added items.
 	 */
-	public static <K, V> MapChange<K, V> addition(Map<K, V> added) {
+	@Nonnull
+	public static <K, V> MapChange<K, V> addition(@Nonnull Map<K, V> added) {
 		Set<Entry<K, V>> mappedAdded = added.entrySet().stream()
 				.map(Entry::new)
 				.collect(Collectors.toSet());
@@ -64,7 +67,8 @@ public class MapChange<K, V> extends SetChange<V> {
 	 *
 	 * @return Change of the removed items.
 	 */
-	public static <K, V> MapChange<K, V> removal(Map<K, V> removed) {
+	@Nonnull
+	public static <K, V> MapChange<K, V> removal(@Nonnull Map<K, V> removed) {
 		Set<Entry<K, V>> mappedRemoved = removed.entrySet().stream()
 				.map(Entry::new)
 				.collect(Collectors.toSet());
@@ -74,6 +78,7 @@ public class MapChange<K, V> extends SetChange<V> {
 	/**
 	 * @return Added entries.
 	 */
+	@Nonnull
 	public Set<Entry<K, V>> getAddedEntries() {
 		return addedEntries;
 	}
@@ -81,6 +86,7 @@ public class MapChange<K, V> extends SetChange<V> {
 	/**
 	 * @return Removed entries.
 	 */
+	@Nonnull
 	public Set<Entry<K, V>> getRemovedEntries() {
 		return removedEntries;
 	}
@@ -101,7 +107,7 @@ public class MapChange<K, V> extends SetChange<V> {
 		 * @param entry
 		 * 		Entry to mirror.
 		 */
-		public Entry(Map.Entry<K, V> entry) {
+		public Entry(@Nonnull Map.Entry<K, V> entry) {
 			this(entry.getKey(), entry.getValue());
 		}
 

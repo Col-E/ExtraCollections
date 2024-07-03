@@ -1,5 +1,6 @@
 package software.coley.collections.bidi;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,10 +21,12 @@ public interface BiMap<K, V> extends Map<K, V> {
 	 * @return Set of unique values stored in the map.
 	 */
 	@Override
+	@Nonnull
 	Set<V> values();
 
 	/**
 	 * @return Inversion of the map.
 	 */
+	@Nonnull
 	BiMap<V, K> reversed();
 }

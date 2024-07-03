@@ -1,5 +1,6 @@
 package software.coley.collections.delegate;
 
+import javax.annotation.Nonnull;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.Objects;
@@ -19,7 +20,7 @@ public class DelegatingDeque<T> extends DelegatingQueue<T> implements Deque<T> {
 	 * @param delegate
 	 * 		Delegate deque to pass to.
 	 */
-	public DelegatingDeque(Deque<T> delegate) {
+	public DelegatingDeque(@Nonnull Deque<T> delegate) {
 		super(delegate);
 		this.delegate = Objects.requireNonNull(delegate, "Cannot delegate to a null deque");
 	}
@@ -105,6 +106,7 @@ public class DelegatingDeque<T> extends DelegatingQueue<T> implements Deque<T> {
 	}
 
 	@Override
+	@Nonnull
 	public Iterator<T> descendingIterator() {
 		return delegate.descendingIterator();
 	}

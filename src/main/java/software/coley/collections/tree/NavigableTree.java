@@ -1,5 +1,6 @@
 package software.coley.collections.tree;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.NavigableMap;
 
@@ -20,6 +21,7 @@ public interface NavigableTree<K, V> extends SortedTree<K, V>, NavigableMap<K, T
 	 *
 	 * @return Reverse ordered view of the mappings contained in this tree.
 	 */
+	@Nonnull
 	NavigableTree<K, V> descendingTree();
 
 	/**
@@ -37,8 +39,9 @@ public interface NavigableTree<K, V> extends SortedTree<K, V>, NavigableMap<K, T
 	 * @return View of the portion of this tree whose keys range from
 	 * {@code fromKey} <i>(inclusive when flagged)</i> to {@code toKey} <i>(exclusive when flagged)</i>.
 	 */
+	@Nonnull
 	NavigableTree<K, V> subTree(K fromKey, boolean fromInclusive,
-								K toKey, boolean toInclusive);
+	                            K toKey, boolean toInclusive);
 
 	/**
 	 * Mirrors {@link #headMap(Object, boolean)}.
@@ -51,6 +54,7 @@ public interface NavigableTree<K, V> extends SortedTree<K, V>, NavigableMap<K, T
 	 * @return View of the portion of this tree whose keys are less than
 	 * {@code toKey} <i>(exclusive when flagged)</i>.
 	 */
+	@Nonnull
 	NavigableTree<K, V> headTree(K toKey, boolean inclusive);
 
 	/**
@@ -64,5 +68,6 @@ public interface NavigableTree<K, V> extends SortedTree<K, V>, NavigableMap<K, T
 	 * @return View of the portion of this tree whose keys are greater than
 	 * <i>(or equal to when flagged)</i> {@code fromKey}.
 	 */
+	@Nonnull
 	NavigableTree<K, V> tailTree(K fromKey, boolean inclusive);
 }

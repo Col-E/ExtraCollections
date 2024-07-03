@@ -21,7 +21,7 @@ public class DelegatingList<T> extends DelegatingCollection<T> implements List<T
 	 * @param delegate
 	 * 		Delegate list to pass to.
 	 */
-	public DelegatingList(List<T> delegate) {
+	public DelegatingList(@Nonnull List<T> delegate) {
 		super(delegate);
 		this.delegate = Objects.requireNonNull(delegate, "Cannot delegate to a null list");
 	}

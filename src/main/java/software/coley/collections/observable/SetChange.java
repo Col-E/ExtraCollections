@@ -2,6 +2,8 @@ package software.coley.collections.observable;
 
 import software.coley.collections.Sets;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.Set;
 
@@ -20,7 +22,7 @@ public class SetChange<T> extends Change<T, Set<T>> {
 	 * @param removed
 	 * 		Set of removed items.
 	 */
-	public SetChange(Set<T> added, Set<T> removed) {
+	public SetChange(@Nonnull Set<T> added, @Nonnull Set<T> removed) {
 		super(added, removed);
 	}
 
@@ -32,7 +34,8 @@ public class SetChange<T> extends Change<T, Set<T>> {
 	 *
 	 * @return Change of the single addition.
 	 */
-	public static <T> SetChange<T> addition(T added) {
+	@Nonnull
+	public static <T> SetChange<T> addition(@Nullable T added) {
 		return addition(Sets.of(added));
 	}
 
@@ -44,7 +47,8 @@ public class SetChange<T> extends Change<T, Set<T>> {
 	 *
 	 * @return Change of the multiple additions.
 	 */
-	public static <T> SetChange<T> addition(Set<T> added) {
+	@Nonnull
+	public static <T> SetChange<T> addition(@Nonnull Set<T> added) {
 		return new SetChange<>(added, Collections.emptySet());
 	}
 
@@ -56,7 +60,8 @@ public class SetChange<T> extends Change<T, Set<T>> {
 	 *
 	 * @return Change of the single removal.
 	 */
-	public static <T> SetChange<T> removal(T removed) {
+	@Nonnull
+	public static <T> SetChange<T> removal(@Nullable T removed) {
 		return addition(Sets.of(removed));
 	}
 
@@ -68,7 +73,8 @@ public class SetChange<T> extends Change<T, Set<T>> {
 	 *
 	 * @return Change of the multiple removals.
 	 */
-	public static <T> SetChange<T> removal(Set<T> removed) {
+	@Nonnull
+	public static <T> SetChange<T> removal(@Nonnull Set<T> removed) {
 		return new SetChange<>(Collections.emptySet(), removed);
 	}
 }

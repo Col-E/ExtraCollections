@@ -1,5 +1,7 @@
 package software.coley.collections.observable;
 
+import javax.annotation.Nonnull;
+
 /**
  * Listener for receiving notifications of changes to an {@link ObservableSet}.
  *
@@ -15,5 +17,5 @@ public interface SetChangeListener<T> {
 	 * @param change
 	 * 		Description of changes.
 	 */
-	void onSetChanged(ObservableSet<T> source, SetChange<T> change);
+	void onSetChanged(@Nonnull ObservableSet<T> source, @Nonnull SetChange<T> change);
 }

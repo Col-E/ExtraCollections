@@ -1,5 +1,6 @@
 package software.coley.collections.delegate;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 
 /**
@@ -15,7 +16,7 @@ public class DelegatingSet<T> extends DelegatingCollection<T> implements Set<T> 
 	 * @param delegate
 	 * 		Delegate set to pass to.
 	 */
-	public DelegatingSet(Set<T> delegate) {
+	public DelegatingSet(@Nonnull Set<T> delegate) {
 		super(delegate);
 	}
 }

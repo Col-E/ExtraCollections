@@ -2,6 +2,7 @@ package software.coley.collections.tree;
 
 import software.coley.collections.delegate.DelegatingNavigableMap;
 
+import javax.annotation.Nonnull;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.function.Supplier;
@@ -86,42 +87,50 @@ public class NavigableTreeImpl<K, V> extends DelegatingNavigableMap<K, Tree<K, V
 		return parent;
 	}
 
+	@Nonnull
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends Tree<K, V>> T createSubTree(V value) {
 		return (T) new NavigableTreeImpl<>(delegateSupplier, this, value);
 	}
 
+	@Nonnull
 	@Override
 	public NavigableTree<K, V> descendingTree() {
 		return from(descendingMap());
 	}
 
+	@Nonnull
 	@Override
 	public NavigableTree<K, V> subTree(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
 		return from(subMap(fromKey, fromInclusive, toKey, toInclusive));
 	}
 
+	@Nonnull
 	@Override
 	public NavigableTree<K, V> subTree(K fromKey, K toKey) {
 		return from((NavigableMap<K, Tree<K, V>>) subMap(fromKey, toKey));
 	}
 
+	@Nonnull
 	@Override
 	public NavigableTree<K, V> headTree(K toKey, boolean inclusive) {
 		return from(headTree(toKey, inclusive));
 	}
 
+	@Nonnull
 	@Override
 	public NavigableTree<K, V> headTree(K toKey) {
 		return from((NavigableMap<K, Tree<K, V>>) headMap(toKey));
 	}
 
+	@Nonnull
 	@Override
 	public NavigableTree<K, V> tailTree(K fromKey, boolean inclusive) {
 		return from(tailMap(fromKey, inclusive));
 	}
 
+	@Nonnull
 	@Override
 	public NavigableTree<K, V> tailTree(K fromKey) {
 		return from((NavigableMap<K, Tree<K, V>>) tailMap(fromKey));

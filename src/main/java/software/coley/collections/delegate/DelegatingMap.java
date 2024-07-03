@@ -23,7 +23,7 @@ public class DelegatingMap<K, V> implements Map<K, V> {
 	 * @param delegate
 	 * 		Delegate map to pass to.
 	 */
-	public DelegatingMap(Map<K, V> delegate) {
+	public DelegatingMap(@Nonnull Map<K, V> delegate) {
 		this.delegate = Objects.requireNonNull(delegate, "Cannot delegate to a null map");
 	}
 

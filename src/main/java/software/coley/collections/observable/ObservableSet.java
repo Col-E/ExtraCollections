@@ -3,6 +3,7 @@ package software.coley.collections.observable;
 import software.coley.collections.delegate.DelegatingSet;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -33,7 +34,7 @@ public class ObservableSet<T> extends DelegatingSet<T> {
 	 * @param items
 	 * 		Existing items to create as an initial state.
 	 */
-	public ObservableSet(Collection<T> items) {
+	public ObservableSet(@Nonnull Collection<T> items) {
 		// We wrap the incoming set just to ensure our delegate can modify the set without unintended effects
 		// if the user passes a set intended to be immutable.
 		this(() -> new HashSet<>(items));
@@ -46,7 +47,7 @@ public class ObservableSet<T> extends DelegatingSet<T> {
 	 * 		Factory to provide a backing set implementation.
 	 * 		Intended to be a single call to a set implementation constructor with zero ties to outside state.
 	 */
-	public ObservableSet(Supplier<Set<T>> factory) {
+	public ObservableSet(@Nonnull Supplier<Set<T>> factory) {
 		super(factory.get());
 	}
 
@@ -56,10 +57,9 @@ public class ObservableSet<T> extends DelegatingSet<T> {
 	 * @param listener
 	 * 		Listener to add.
 	 */
-	public void addChangeListener(SetChangeListener<T> listener) {
-		if (listener != null) {
+	public void addChangeListener(@Nullable SetChangeListener<T> listener) {
+		if (listener != null)
 			listeners.add(listener);
-		}
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class ObservableSet<T> extends DelegatingSet<T> {
 	 *
 	 * @return {@code true} on removal success.
 	 */
-	public boolean removeChangeListener(SetChangeListener<T> listener) {
+	public boolean removeChangeListener(@Nullable SetChangeListener<T> listener) {
 		return listeners.remove(listener);
 	}
 
@@ -80,7 +80,7 @@ public class ObservableSet<T> extends DelegatingSet<T> {
 	 * @param change
 	 * 		Change to post to subscribed listeners.
 	 */
-	private void post(SetChange<T> change) {
+	private void post(@Nonnull SetChange<T> change) {
 		listeners.forEach(listener -> listener.onSetChanged(this, change));
 	}
 

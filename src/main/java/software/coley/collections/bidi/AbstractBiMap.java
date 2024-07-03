@@ -20,7 +20,7 @@ public abstract class AbstractBiMap<K, V> extends DelegatingMap<K, V> implements
 	 * @param delegate
 	 * 		Delegate map to pass to.
 	 */
-	public AbstractBiMap(Map<K, V> delegate) {
+	public AbstractBiMap(@Nonnull Map<K, V> delegate) {
 		super(delegate);
 		validate(delegate);
 	}
@@ -32,7 +32,7 @@ public abstract class AbstractBiMap<K, V> extends DelegatingMap<K, V> implements
 	 * @throws IllegalArgumentException
 	 * 		When the map has duplicate values.
 	 */
-	protected void validate(Map<K, V> map) {
+	protected void validate(@Nonnull Map<K, V> map) {
 		Set<V> values = new HashSet<>();
 		for (V value : map.values())
 			if (values.contains(value))
@@ -63,6 +63,7 @@ public abstract class AbstractBiMap<K, V> extends DelegatingMap<K, V> implements
 		return new HashSet<>(super.values());
 	}
 
+	@Nonnull
 	@Override
 	public BiMap<V, K> reversed() {
 		BiMap<V, K> map = createImpl();
@@ -70,5 +71,6 @@ public abstract class AbstractBiMap<K, V> extends DelegatingMap<K, V> implements
 		return map;
 	}
 
+	@Nonnull
 	protected abstract <K1, V1> AbstractBiMap<K1, V1> createImpl();
 }

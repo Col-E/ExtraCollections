@@ -1,5 +1,6 @@
 package software.coley.collections.tree;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -26,6 +27,7 @@ public interface SortedTree<K, V> extends Tree<K, V>, SortedMap<K, Tree<K, V>> {
 	 * @return View of the portion of this tree whose keys range from
 	 * {@code fromKey} <i>(inclusive)</i> to {@code toKey} <i>(exclusive)</i>.
 	 */
+	@Nonnull
 	SortedTree<K, V> subTree(K fromKey, K toKey);
 
 	/**
@@ -37,6 +39,7 @@ public interface SortedTree<K, V> extends Tree<K, V>, SortedMap<K, Tree<K, V>> {
 	 * @return View of the portion of this tree whose keys are less than
 	 * {@code toKey} <i>(exclusive)</i>.
 	 */
+	@Nonnull
 	SortedTree<K, V> headTree(K toKey);
 
 	/**
@@ -48,6 +51,7 @@ public interface SortedTree<K, V> extends Tree<K, V>, SortedMap<K, Tree<K, V>> {
 	 * @return View of the portion of this tree whose keys are greater than or equal to
 	 * {@code fromKey}.
 	 */
+	@Nonnull
 	SortedTree<K, V> tailTree(K fromKey);
 
 }
