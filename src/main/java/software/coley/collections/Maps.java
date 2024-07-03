@@ -271,7 +271,7 @@ public class Maps {
 	@Nonnull
 	public static <K, V> Map<V, K> reverse(@Nullable Map<K, V> map) {
 		if (map == null) return Collections.emptyMap();
-		
+
 		Map<V, K> result = new HashMap<>();
 		map.forEach((k, v) -> result.put(v, k));
 		return result;
