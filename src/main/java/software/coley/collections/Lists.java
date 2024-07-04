@@ -186,6 +186,54 @@ public class Lists {
 	}
 
 	/**
+	 * @param items
+	 * 		Item list to search in.
+	 * @param target
+	 * 		Item to search for.
+	 * @param <T>
+	 * 		Item type.
+	 *
+	 * @return Index of item in list.
+	 * If the item is not in the list, the negative value of the index where it would appear in sorted order.
+	 */
+	public static <T extends Comparable<T>> int binarySearch(@Nonnull List<T> items, @Nonnull T target) {
+		return binarySearch(items, target, 0, items.size() - 1);
+	}
+
+	/**
+	 * @param items
+	 * 		Item list to search in.
+	 * @param target
+	 * 		Item to search for.
+	 * @param first
+	 * 		Start range.
+	 * @param last
+	 * 		End range.
+	 * @param <T>
+	 * 		Item type.
+	 *
+	 * @return Index of item in list, within the range.
+	 * If the item is not in the list, the negative value of the index where it would appear in sorted order.
+	 */
+	public static <T extends Comparable<T>> int binarySearch(@Nonnull List<T> items, @Nonnull T target, int first, int last) {
+		if (first > last)
+			// Typically yield '-1' but with this, we will have it such that if 'target' is not in the list
+			// then the return value will be the negative value of the index where it would be inserted into
+			// while maintaining sorted order.
+			return (first == 0 && last == -1) ? last : -last;
+		else {
+			int middle = (first + last) / 2;
+			int compResult = target.compareTo(items.get(middle));
+			if (compResult == 0)
+				return middle;
+			else if (compResult < 0)
+				return binarySearch(items, target, first, middle - 1);
+			else
+				return binarySearch(items, target, middle + 1, last);
+		}
+	}
+
+	/**
 	 * @param list
 	 * 		List to insert into.
 	 * @param item
