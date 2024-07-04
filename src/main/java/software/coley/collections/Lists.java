@@ -51,8 +51,10 @@ public class Lists {
 		if (src1 == null) src1 = Collections.emptyList();
 		if (src2 == null) src2 = Collections.emptyList();
 
-		if (src2.isEmpty()) return src1;
-		if (src1.isEmpty()) return Collections.emptyList();
+		if (src2.isEmpty()) {
+			if (src1.isEmpty()) return Collections.emptyList();
+			return src1;
+		}
 
 		List<T> list = new ArrayList<>(src1.size() + src2.size());
 		list.addAll(src1);
@@ -112,10 +114,8 @@ public class Lists {
 	 */
 	@Nonnull
 	public static <T> List<T> union(@Nullable List<T> src1, @Nullable List<T> src2) {
-		if (src1 == null)
-			return src2 == null ? Collections.emptyList() : src2;
-		if (src2 == null)
-			return src1;
+		if (src1 == null || src2 == null || src1.isEmpty() || src2.isEmpty())
+			return Collections.emptyList();
 
 		List<T> results = new ArrayList<>(src1);
 		results.retainAll(src2);
