@@ -6,7 +6,7 @@
 
     <groupId>software.coley</groupId>
     <artifactId>extra-collections</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 
     <name>Extra Collections</name>
     <description>Extra useful collection types and utilities</description>
