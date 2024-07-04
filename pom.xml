@@ -33,7 +33,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <junit.version>5.8.2</junit.version>
+        <junit.version>5.10.3</junit.version>
     </properties>
 
     <dependencies>
@@ -82,7 +82,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>2.19.1</version> <!-- Old version runs the test, new version crashes, IDFKW -->
             </plugin>
         </plugins>
     </build>
