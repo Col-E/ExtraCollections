@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Tests for {@link Tree}
  */
-public class Trees {
+public class TreeTest {
 	@Test
 	public void test_equality() {
 		Tree<String, String> tree1 = new TreeImpl<>("root");

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests for {@link BiMap}
  */
 @SuppressWarnings("all")
-public class Bidi {
+public class BidiTest {
 	@Nested
 	class Hash {
 		@Test
