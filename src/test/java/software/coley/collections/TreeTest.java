@@ -5,6 +5,7 @@ import software.coley.collections.tree.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -130,5 +131,22 @@ public class TreeTest {
 		assertEquals("keyE", descending.firstKey());
 		assertEquals("keyA", descending.lastKey());
 		assertEquals(Lists.reversed(keys), new ArrayList<>(descending.keySet()));
+	}
+
+	@Test
+	public void test_tree_gets_all_leaves() {
+		SortedTree<String, String> tree = new SortedTreeImpl<>("root");
+		// Populate original tree
+		tree.putTree("key1", "value1");
+		Tree<String, String> sub1 = tree.get("key1");
+		sub1.putTree("key1-a", "value1a");
+		sub1.putTree("key1-b", "value1b");
+		tree.putTree("key2", "value2");
+		tree.putTree("key3", "value3");
+		tree.putTree("key4", "value4");
+		tree.putTree("key5", "value5");
+		// There are 6 leaves, as key1 has two children
+		Set<Tree<String, String>> foo = tree.getAllLeaves();
+		assertEquals(6, foo.size());
 	}
 }

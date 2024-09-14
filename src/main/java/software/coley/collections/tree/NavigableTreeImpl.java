@@ -4,6 +4,7 @@ import software.coley.collections.delegate.DelegatingNavigableMap;
 
 import javax.annotation.Nonnull;
 import java.util.NavigableMap;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Supplier;
 
@@ -140,5 +141,26 @@ public class NavigableTreeImpl<K, V> extends DelegatingNavigableMap<K, Tree<K, V
 		NavigableTreeImpl<K, V> subTree = new NavigableTreeImpl<>(delegateSupplier, subMap, this, value);
 		subTree.putAll(subMap);
 		return subTree;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Tree) || !super.equals(o)) return false;
+
+		Tree<?, ?> that = (Tree<?, ?>) o;
+		return Objects.equals(value, that.getValue());
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + (value != null ? value.hashCode() : 0);
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "NavigableTreeImpl{" + value + '}';
 	}
 }

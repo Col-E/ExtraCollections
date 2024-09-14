@@ -3,6 +3,7 @@ package software.coley.collections.tree;
 import software.coley.collections.delegate.DelegatingSortedMap;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Supplier;
@@ -116,5 +117,26 @@ public class SortedTreeImpl<K, V> extends DelegatingSortedMap<K, Tree<K, V>> imp
 		SortedTreeImpl<K, V> subTree = new SortedTreeImpl<>(delegateSupplier, subMap, this, value);
 		subTree.putAll(subMap);
 		return subTree;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Tree) || !super.equals(o)) return false;
+
+		Tree<?, ?> that = (Tree<?, ?>) o;
+		return Objects.equals(value, that.getValue());
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + value.hashCode();
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "SortedTreeImpl{" + value + '}';
 	}
 }
