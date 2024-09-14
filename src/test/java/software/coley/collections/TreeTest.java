@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for {@link Tree}
@@ -146,7 +146,11 @@ public class TreeTest {
 		tree.putTree("key4", "value4");
 		tree.putTree("key5", "value5");
 		// There are 6 leaves, as key1 has two children
-		Set<Tree<String, String>> foo = tree.getAllLeaves();
-		assertEquals(6, foo.size());
+		Set<Tree<String, String>> leaves = tree.getAllLeaves();
+		assertEquals(6, leaves.size());
+		// Double check parent/child relation
+		Tree<String, String> key1a = sub1.get("key1-a");
+		assertSame(sub1, key1a.getParent());
+		leaves.forEach(t -> assertNotNull(t.getParent()));
 	}
 }
