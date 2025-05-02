@@ -3,7 +3,9 @@ package software.coley.collections;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -117,5 +119,63 @@ public class Sets {
 	@SafeVarargs
 	public static <T> Set<T> ofVar(T... values) {
 		return of(values);
+	}
+
+	/**
+	 * @param set1
+	 * 		Some set.
+	 * @param set2
+	 * 		Some other set.
+	 * @param <T>
+	 * 		Item type.
+	 *
+	 * @return Iterator over all values among both sets.
+	 */
+	@Nonnull
+	public static <T> Iterator<T> iterator(@Nullable Set<T> set1, @Nullable Set<T> set2) {
+		if (set1 == null && set2 == null)
+			return Collections.emptyIterator();
+		else if (set1 == null)
+			return set2.iterator();
+		else if (set2 == null)
+			return set1.iterator();
+		return new MergedSetIterator<>(set1, set2);
+	}
+
+	/**
+	 * Set iterator visiting the unique items of two distinct sets.
+	 *
+	 * @param <T>
+	 * 		Item type.
+	 */
+	private static class MergedSetIterator<T> implements Iterator<T> {
+		private final Iterator<T> leftIt, rightIt;
+		private final int[] seen;
+		private int i;
+
+		public MergedSetIterator(@Nonnull Set<T> left, @Nonnull Set<T> right) {
+			leftIt = left.iterator();
+			rightIt = right.iterator();
+			seen = new int[left.size() + right.size()];
+		}
+
+		@Override
+		public boolean hasNext() {
+			return leftIt.hasNext() || rightIt.hasNext();
+		}
+
+		@Override
+		public T next() {
+			T next = leftIt.hasNext() ? leftIt.next() : rightIt.next();
+			int nextHash = next.hashCode();
+			int max = i;
+			i++;
+			for (int j = 0; j < max; j++) {
+				if (seen[j] == nextHash)
+					return next();
+			}
+			seen[i] = nextHash;
+			return next;
+		}
 	}
 }
