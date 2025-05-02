@@ -1,8 +1,13 @@
 package software.coley.collections.observable;
 
+import software.coley.collections.Sets;
+
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -76,6 +81,33 @@ public class MapChange<K, V> extends SetChange<V> {
 	}
 
 	/**
+	 * @param added
+	 * 		Added items.
+	 * @param removed
+	 * 		Removed items.
+	 * @param <K>
+	 * 		Map key type.
+	 * @param <V>
+	 * 		Map value type.
+	 *
+	 * @return Change of the added and removed items.
+	 */
+	@Nonnull
+	public static <K, V> MapChange<K, V> of(@Nullable Map<K, V> added, @Nullable Map<K, V> removed) {
+		Set<Entry<K, V>> mappedAdded = added == null ?
+				Collections.emptySet() :
+				added.entrySet().stream()
+						.map(Entry::new)
+						.collect(Collectors.toSet());
+		Set<Entry<K, V>> mappedRemoved = removed == null ?
+				Collections.emptySet() :
+				removed.entrySet().stream()
+						.map(Entry::new)
+						.collect(Collectors.toSet());
+		return new MapChange<>(mappedAdded, mappedRemoved);
+	}
+
+	/**
 	 * @return Added entries.
 	 */
 	@Nonnull
@@ -89,6 +121,95 @@ public class MapChange<K, V> extends SetChange<V> {
 	@Nonnull
 	public Set<Entry<K, V>> getRemovedEntries() {
 		return removedEntries;
+	}
+
+	/**
+	 * @return Iterator for all entries <i>(added and removed)</i>.
+	 */
+	@Nonnull
+	public Iterator<Entry<K, V>> entryIterator() {
+		return Sets.iterator(addedEntries, removedEntries);
+	}
+
+	/**
+	 * @param entry
+	 * 		Entry to check.
+	 *
+	 * @return {@code true} when the entry holds an added key in this change.
+	 */
+	public boolean wasAdded(@Nonnull Entry<K, ?> entry) {
+		return wasAdded(entry.key);
+	}
+
+	/**
+	 * @param key
+	 * 		Key to check.
+	 *
+	 * @return {@code true} when the key was added in this change.
+	 */
+	public boolean wasAdded(@Nullable K key) {
+		return addedEntries.stream().anyMatch(e -> Objects.equals(key, e.getKey())) &&
+				removedEntries.stream().noneMatch(e -> Objects.equals(key, e.getKey()));
+	}
+
+	/**
+	 * @param entry
+	 * 		Entry to check.
+	 *
+	 * @return {@code true} when the entry holds a removed key in this change.
+	 */
+	public boolean wasRemoved(@Nonnull Entry<K, ?> entry) {
+		return wasRemoved(entry.key);
+	}
+
+	/**
+	 * @param key
+	 * 		Key to check.
+	 *
+	 * @return {@code true} when the key was removed in this change.
+	 */
+	public boolean wasRemoved(@Nullable K key) {
+		return removedEntries.stream().anyMatch(e -> Objects.equals(key, e.getKey())) &&
+				addedEntries.stream().noneMatch(e -> Objects.equals(key, e.getKey()));
+	}
+
+	/**
+	 * @param entry
+	 * 		Entry to check.
+	 *
+	 * @return {@code true} when the entry holds a replaced key in this change.
+	 */
+	public boolean wasReplaced(@Nonnull Entry<K, ?> entry) {
+		return wasReplaced(entry.key);
+	}
+
+	/**
+	 * @param key
+	 * 		Key to check.
+	 *
+	 * @return {@code true} when the key was replaced in this change.
+	 */
+	public boolean wasReplaced(@Nullable K key) {
+		return removedEntries.stream().anyMatch(e -> Objects.equals(key, e.getKey())) &&
+				addedEntries.stream().anyMatch(e -> Objects.equals(key, e.getKey()));
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MapChange)) return false;
+
+		MapChange<?, ?> mapChange = (MapChange<?, ?>) o;
+
+		if (!addedEntries.equals(mapChange.addedEntries)) return false;
+		return removedEntries.equals(mapChange.removedEntries);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = addedEntries.hashCode();
+		result = 31 * result + removedEntries.hashCode();
+		return result;
 	}
 
 	/**
@@ -134,6 +255,29 @@ public class MapChange<K, V> extends SetChange<V> {
 		 */
 		public V getValue() {
 			return value;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (!(o instanceof Entry)) return false;
+
+			Entry<?, ?> entry = (Entry<?, ?>) o;
+
+			if (!Objects.equals(key, entry.key)) return false;
+			return Objects.equals(value, entry.value);
+		}
+
+		@Override
+		public int hashCode() {
+			int result = key != null ? key.hashCode() : 0;
+			result = 31 * result + (value != null ? value.hashCode() : 0);
+			return result;
+		}
+
+		@Override
+		public String toString() {
+			return key + "=" + value;
 		}
 	}
 }

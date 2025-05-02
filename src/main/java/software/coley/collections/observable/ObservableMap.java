@@ -93,12 +93,13 @@ public class ObservableMap<K, V> extends DelegatingMap<K, V> {
 
 	@Override
 	public V put(K key, V value) {
-		V result = super.put(key, value);
-		if (result != null) {
-			post(MapChange.removal(Maps.of(key, result)));
+		V replaced = super.put(key, value);
+		if (replaced != null) {
+			post(MapChange.of(Maps.of(key, value), Maps.of(key, replaced)));
+		} else {
+			post(MapChange.addition(Maps.of(key, value)));
 		}
-		post(MapChange.addition(Maps.of(key, value)));
-		return result;
+		return replaced;
 	}
 
 	@Override
@@ -110,9 +111,10 @@ public class ObservableMap<K, V> extends DelegatingMap<K, V> {
 				.forEach(e -> replaced.put(e.getKey(), e.getValue()));
 		super.putAll(m);
 		if (!replaced.isEmpty()) {
-			post(MapChange.addition(replaced));
+			post(MapChange.of((Map<K, V>) m, replaced));
+		} else {
+			post(MapChange.addition((Map<K, V>) m));
 		}
-		post(MapChange.addition((Map<K, V>) m));
 	}
 
 	@Override
