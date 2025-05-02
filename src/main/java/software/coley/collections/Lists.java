@@ -331,8 +331,10 @@ public class Lists {
 		if (collection instanceof SortedSet)
 			return new ArrayList<>(collection);
 
-		// Wrap implicitly sorted collection
-		return new ArrayList<>(new TreeSet<>(collection));
+		// Create new list and sort it
+		List<T> list = new ArrayList<>(collection);
+		list.sort(Comparator.naturalOrder());
+		return list;
 	}
 
 	/**
@@ -357,10 +359,10 @@ public class Lists {
 		if (collection instanceof SortedSet)
 			return new ArrayList<>(collection);
 
-		// Wrap implicitly sorted collection
-		TreeSet<T> sortedSet = new TreeSet<>(comparator);
-		sortedSet.addAll(collection);
-		return new ArrayList<>(sortedSet);
+		// Create new list and sort it
+		List<T> list = new ArrayList<>(collection);
+		list.sort(comparator);
+		return list;
 	}
 
 	/**
