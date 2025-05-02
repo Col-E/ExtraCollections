@@ -2,6 +2,7 @@ package software.coley.collections;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -95,6 +96,16 @@ class ListsTest {
 		assertEquals(0, Lists.sortedInsertIndex(strings, " "));
 		assertEquals(0, Lists.sortedInsertIndex(strings, "a"));
 		assertEquals(5, Lists.sortedInsertIndex(strings, "g"));
+	}
+
+	@Test
+	void sortedInsert() {
+		List<String> strings = new ArrayList<>(asList("a", "b", "c", /* d */ "e", "f"));
+		assertTrue(Lists.sortedInsert(strings, " "));
+		assertEquals(0, strings.indexOf(" "));
+		assertTrue(Lists.sortedInsert(strings, "a"));
+		assertEquals(1, strings.indexOf("a"));
+		assertEquals(2, strings.lastIndexOf("a"));
 	}
 
 	@Test

@@ -2,7 +2,15 @@ package software.coley.collections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Utility for handling {@link java.util.List} types.
@@ -266,6 +274,93 @@ public class Lists {
 		int i = Collections.binarySearch(list, item, comparator);
 		if (i < 0) i = -i - 1; // When not found, invert to get correct index.
 		return i;
+	}
+
+	/**
+	 * @param list
+	 * 		List to insert into.
+	 * @param item
+	 * 		Item to insert.
+	 * @param <T>
+	 * 		Item type.
+	 *
+	 * @return {@code true} when inserted successfully.
+	 */
+	public static <T extends Comparable<T>> boolean sortedInsert(@Nonnull List<T> list, @Nonnull T item) {
+		return sortedInsert(null, list, item);
+	}
+
+	/**
+	 * @param comparator
+	 * 		Optional comparator for sorting, must be specified if {@code T} is not {@link Comparable}.
+	 * @param list
+	 * 		List to insert into.
+	 * @param item
+	 * 		Item to insert.
+	 * @param <T>
+	 * 		Item type.
+	 *
+	 * @return {@code true} when inserted successfully.
+	 */
+	public static <T> boolean sortedInsert(@Nullable Comparator<T> comparator, @Nonnull List<T> list, @Nonnull T item) {
+		int index = sortedInsertIndex(comparator, list, item);
+		if (index >= 0 && index <= list.size()) {
+			list.add(index, item);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param collection
+	 * 		Some collection.
+	 * @param <T>
+	 * 		Item type.
+	 * @param <C>
+	 * 		Collection type.
+	 *
+	 * @return Sorted list of the items in the collection.
+	 */
+	@Nonnull
+	public static <T extends Comparable<T>, C extends Collection<T>> List<T> sorted(@Nonnull C collection) {
+		// Empty, nothing to sort
+		if (collection.isEmpty())
+			return Collections.emptyList();
+
+		// Already sorted
+		if (collection instanceof SortedSet)
+			return new ArrayList<>(collection);
+
+		// Wrap implicitly sorted collection
+		return new ArrayList<>(new TreeSet<>(collection));
+	}
+
+	/**
+	 * @param comparator
+	 * 		Comparator for sorting.
+	 * @param collection
+	 * 		Some collection.
+	 * @param <T>
+	 * 		Item type.
+	 * @param <C>
+	 * 		Collection type.
+	 *
+	 * @return Sorted list of the items in the collection.
+	 */
+	@Nonnull
+	public static <T, C extends Collection<T>> List<T> sorted(@Nonnull Comparator<T> comparator, @Nonnull C collection) {
+		// Empty, nothing to sort
+		if (collection.isEmpty())
+			return Collections.emptyList();
+
+		// Already sorted
+		if (collection instanceof SortedSet)
+			return new ArrayList<>(collection);
+
+		// Wrap implicitly sorted collection
+		TreeSet<T> sortedSet = new TreeSet<>(comparator);
+		sortedSet.addAll(collection);
+		return new ArrayList<>(sortedSet);
 	}
 
 	/**
