@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.function.Function;
 
 /**
  * Utility for handling {@link java.util.List} types.
@@ -201,8 +201,9 @@ public class Lists {
 	 * @param <T>
 	 * 		Item type.
 	 *
-	 * @return Index of item in list.
-	 * If the item is not in the list, the negative value of the index where it would appear in sorted order.
+	 * @return Index of item in list, within the range.
+	 * If the item is not in the list, then {@code (-(insertion point) - 1)} where the insertion point is
+	 * the index at which the value would be inserted into the list.
 	 */
 	public static <T extends Comparable<T>> int binarySearch(@Nonnull List<T> items, @Nonnull T target) {
 		return binarySearch(items, target, 0, items.size() - 1);
@@ -221,24 +222,76 @@ public class Lists {
 	 * 		Item type.
 	 *
 	 * @return Index of item in list, within the range.
-	 * If the item is not in the list, the negative value of the index where it would appear in sorted order.
+	 * If the item is not in the list, then {@code (-(insertion point) - 1)} where the insertion point is
+	 * the index at which the value would be inserted into the list.
 	 */
 	public static <T extends Comparable<T>> int binarySearch(@Nonnull List<T> items, @Nonnull T target, int first, int last) {
-		if (first > last)
-			// Typically yield '-1' but with this, we will have it such that if 'target' is not in the list
-			// then the return value will be the negative value of the index where it would be inserted into
-			// while maintaining sorted order.
-			return (first == 0 && last == -1) ? last : -last;
-		else {
-			int middle = (first + last) / 2;
+		while (first <= last) {
+			int middle = (first + last) >>> 1;
 			int compResult = target.compareTo(items.get(middle));
 			if (compResult == 0)
 				return middle;
-			else if (compResult < 0)
-				return binarySearch(items, target, first, middle - 1);
+			if (compResult < 0)
+				last = middle - 1;
 			else
-				return binarySearch(items, target, middle + 1, last);
+				first = middle + 1;
 		}
+		return (first == 0 && last == -1) ? last : -last;
+	}
+
+	/**
+	 * @param items
+	 * 		Item list to search in.
+	 * @param target
+	 * 		Item to search for.
+	 * @param unbox
+	 * 		Function to unbox B into T.
+	 * @param <B>
+	 * 		Box type.
+	 * @param <T>
+	 * 		Item type.
+	 *
+	 * @return Index of item in list, within the range.
+	 * If the item is not in the list, then {@code (-(insertion point) - 1)} where the insertion point is
+	 * the index at which the value would be inserted into the list.
+	 */
+	public static <B, T extends Comparable<T>> int binaryUnboxingSearch(@Nonnull List<B> items, @Nonnull T target, @Nonnull Function<B, T> unbox) {
+		return binaryUnboxingSearch(items, target, unbox, 0, items.size() - 1);
+	}
+
+	/**
+	 * @param items
+	 * 		Item list to search in.
+	 * @param target
+	 * 		Item to search for.
+	 * @param unbox
+	 * 		Function to unbox B into T.
+	 * @param first
+	 * 		Start range.
+	 * @param last
+	 * 		End range.
+	 * @param <B>
+	 * 		Box type.
+	 * @param <T>
+	 * 		Item type.
+	 *
+	 * @return Index of item in list, within the range.
+	 * If the item is not in the list, then {@code (-(insertion point) - 1)} where the insertion point is
+	 * the index at which the value would be inserted into the list.
+	 */
+	public static <B, T extends Comparable<T>> int binaryUnboxingSearch(@Nonnull List<B> items, @Nonnull T target,
+	                                                                    @Nonnull Function<B, T> unbox, int first, int last) {
+		while (first <= last) {
+			int middle = (first + last) >>> 1;
+			int compResult = target.compareTo(unbox.apply(items.get(middle)));
+			if (compResult == 0)
+				return middle;
+			if (compResult < 0)
+				last = middle - 1;
+			else
+				first = middle + 1;
+		}
+		return (first == 0 && last == -1) ? last : -last;
 	}
 
 	/**
