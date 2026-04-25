@@ -32,12 +32,13 @@ distributions:
 
 signing:
   active: RELEASE
-  mode: MEMORY
-  armored: true
-  verify: true
-  artifacts: true
-  checksums: true
-  files: false
+  pgp:
+    mode: MEMORY
+    armored: true
+    verify: true
+    artifacts: true
+    checksums: true
+    files: false
 
 deploy:
   maven:
