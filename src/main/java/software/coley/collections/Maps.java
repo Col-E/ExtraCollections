@@ -43,7 +43,6 @@ public class Maps {
 		return result;
 	}
 
-
 	/**
 	 * @param map
 	 * 		Input map.
@@ -256,6 +255,26 @@ public class Maps {
 	@Nonnull
 	public static <K, V> Map<K, V> of(K key, V value) {
 		return Collections.singletonMap(key, value);
+	}
+
+	/**
+	 * @param map
+	 * 		Map input.
+	 * @param value
+	 * 		Value to search for.
+	 * @param <K>
+	 * 		Key type.
+	 * @param <V>
+	 * 		Value type.
+	 *
+	 * @return Key of the first found entry that has the same identity as the given value.
+	 */
+	@Nullable
+	public static <K, V> K identityKeyOf(@Nonnull Map<K, ? extends V> map, V value) {
+		for (Map.Entry<K, ? extends V> entry : map.entrySet())
+			if (value == entry.getValue())
+				return entry.getKey();
+		return null;
 	}
 
 	/**
