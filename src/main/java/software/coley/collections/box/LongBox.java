@@ -42,6 +42,30 @@ public class LongBox {
 	}
 
 	/**
+	 * Increment by 1
+	 */
+	public void increment() {
+		increment(1);
+	}
+
+	/**
+	 * Decrement by 1
+	 */
+	public void decrement() {
+		increment(-1);
+	}
+
+	/**
+	 * Increment by the given value.
+	 *
+	 * @param value
+	 * 		Value to increment by.
+	 */
+	public void increment(long value) {
+		set(get() + value);
+	}
+
+	/**
 	 * @param function
 	 * 		Mapping function.
 	 * @param <R>
