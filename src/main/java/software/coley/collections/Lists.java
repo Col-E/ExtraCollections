@@ -194,6 +194,23 @@ public class Lists {
 	}
 
 	/**
+	 * @param list
+	 * 		List to search through.
+	 * @param element
+	 * 		Element to search for.
+	 * @param <T>
+	 * 		Inferred element type.
+	 *
+	 * @return The index of the first occurrence of {@code element} in {@code list}, or -1 if not found.
+	 */
+	public static <T> int identityIndexOf(@Nonnull List<? extends T> list, T element) {
+		for (int i = list.size(); i != 0; )
+			if (element == list.get(--i))
+				return i;
+		return -1;
+	}
+
+	/**
 	 * @param items
 	 * 		Item list to search in.
 	 * @param target

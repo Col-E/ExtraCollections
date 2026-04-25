@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -74,6 +73,17 @@ class ListsTest {
 	}
 
 	@Test
+	void identityIndexOf() {
+		Foo a = new Foo();
+		Foo b = new Foo();
+		Foo c = new Foo();
+		List<Foo> strings = asList(a, b);
+		assertEquals(0, Lists.identityIndexOf(strings, a));
+		assertEquals(1, Lists.identityIndexOf(strings, b));
+		assertEquals(2, Lists.identityIndexOf(strings, c));
+	}
+
+	@Test
 	void binarySearch() {
 		// Base case, empty list
 		assertEquals(-1, Lists.binarySearch(Collections.emptyList(), "a"));
@@ -101,13 +111,13 @@ class ListsTest {
 		// Same test as the above but boxed
 		List<Box<String>> strings = asList(new Box<>("a"), new Box<>("b"), new Box<>("c"), /* new Box<>("d") */ new Box<>("e"), new Box<>("f"));
 		assertEquals(0, Lists.binaryUnboxingSearch(strings, "a", Box::get));
-		assertEquals(2, Lists. binaryUnboxingSearch(strings, "c", Box::get));
-		assertEquals(3, Lists. binaryUnboxingSearch(strings, "e", Box::get));
-		assertEquals(4, Lists. binaryUnboxingSearch(strings, "f", Box::get));
+		assertEquals(2, Lists.binaryUnboxingSearch(strings, "c", Box::get));
+		assertEquals(3, Lists.binaryUnboxingSearch(strings, "e", Box::get));
+		assertEquals(4, Lists.binaryUnboxingSearch(strings, "f", Box::get));
 		assertEquals(-1, Lists.binaryUnboxingSearch(strings, " ", Box::get));
 		assertEquals(-2, Lists.binaryUnboxingSearch(strings, "d", Box::get));
 		assertEquals(-4, Lists.binaryUnboxingSearch(strings, "g", Box::get));
-		assertEquals(0, Lists. binaryUnboxingSearch(strings, "a",  Box::get, 1, 5));
+		assertEquals(0, Lists.binaryUnboxingSearch(strings, "a", Box::get, 1, 5));
 		assertEquals(-1, Lists.binaryUnboxingSearch(strings, "a", Box::get, 2, 5));
 		assertEquals(-2, Lists.binaryUnboxingSearch(strings, "a", Box::get, 3, 5));
 		assertEquals(-3, Lists.binaryUnboxingSearch(strings, "a", Box::get, 4, 5));
@@ -150,4 +160,6 @@ class ListsTest {
 		list.add("test");
 		assertEquals(0, list.size());
 	}
+
+	static class Foo {}
 }
