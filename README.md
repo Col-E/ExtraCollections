@@ -21,4 +21,4 @@ Handy utilities for things I wish were in Java's collections api.
 - Lambdas that `throw Throwable`
 - Common utilities for `List`, `Map`, and `Set` types with features such as:
   - Creating singleton collections
-  - Creating disjoint & union collection of two input collections
+  - Creating disjoint & intersection collection of two input collections

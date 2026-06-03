@@ -52,12 +52,12 @@ class ListsTest {
 	}
 
 	@Test
-	void union() {
-		assertEquals(singletonList("c"), Lists.union(asList("a", "b", "c"), asList("c", "d", "e")));
-		assertEquals(emptyList(), Lists.union(asList("a", "b", "c"), emptyList()));
-		assertEquals(emptyList(), Lists.union(asList("a", "b", "c"), null));
-		assertEquals(emptyList(), Lists.union(emptyList(), asList("a", "b", "c")));
-		assertEquals(emptyList(), Lists.union(null, asList("a", "b", "c")));
+	void intersection() {
+		assertEquals(singletonList("c"), Lists.intersection(asList("a", "b", "c"), asList("c", "d", "e")));
+		assertEquals(emptyList(), Lists.intersection(asList("a", "b", "c"), emptyList()));
+		assertEquals(emptyList(), Lists.intersection(asList("a", "b", "c"), null));
+		assertEquals(emptyList(), Lists.intersection(emptyList(), asList("a", "b", "c")));
+		assertEquals(emptyList(), Lists.intersection(null, asList("a", "b", "c")));
 	}
 
 	@Test

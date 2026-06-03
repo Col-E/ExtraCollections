@@ -121,7 +121,7 @@ public class Lists {
 	 * @return List of containing only the items shared by the two lists.
 	 */
 	@Nonnull
-	public static <T> List<T> union(@Nullable List<T> src1, @Nullable List<T> src2) {
+	public static <T> List<T> intersection(@Nullable List<T> src1, @Nullable List<T> src2) {
 		if (src1 == null || src2 == null || src1.isEmpty() || src2.isEmpty())
 			return Collections.emptyList();
 

@@ -74,7 +74,7 @@ public class Sets {
 	 *
 	 * @return Set containing only the items shared by the two sets.
 	 */
-	public static <T> Set<T> union(Set<T> src1, Set<T> src2) {
+	public static <T> Set<T> intersection(Set<T> src1, Set<T> src2) {
 		Set<T> results = new HashSet<>(src1);
 		results.retainAll(src2);
 		return results;

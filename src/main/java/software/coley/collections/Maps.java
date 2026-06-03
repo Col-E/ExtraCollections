@@ -204,8 +204,8 @@ public class Maps {
 	 * @return New map containing only the entries <i>(by keys)</i> shared by the two maps.
 	 */
 	@Nonnull
-	public static <K, V, M extends Map<K, V>> M union(@Nonnull Supplier<M> resultMapSupplier,
-	                                                  @Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
+	public static <K, V, M extends Map<K, V>> M intersection(@Nonnull Supplier<M> resultMapSupplier,
+	                                                         @Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
 		M result = resultMapSupplier.get();
 		if (src1 != null)
 			result.putAll(src1);
@@ -229,7 +229,7 @@ public class Maps {
 	 * @return New map containing only the entries <i>(by keys)</i> shared by the two maps.
 	 */
 	@Nonnull
-	public static <K, V> Map<K, V> union(@Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
+	public static <K, V> Map<K, V> intersection(@Nullable Map<K, V> src1, @Nullable Map<K, V> src2) {
 		if (src1 == null || src1.isEmpty() || src2 == null || src2.isEmpty())
 			return Collections.emptyMap();
 
