@@ -7,6 +7,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.*;
 
 /**
@@ -234,8 +236,15 @@ public class Unchecked {
 	public static <T> void checkedForEach(@Nonnull Collection<T> collection,
 	                                      @Nonnull UncheckedConsumer<T> consumer,
 	                                      @Nonnull BiConsumer<T, Throwable> errorConsumer) {
-		// Iterate over a shallow-copy in case the consumer updates the original collection.
-		for (T item : new ArrayList<>(collection)) {
+		// Do not copy the collection if it is already a copy-on-write collection, as that would be wasteful.
+		Collection<T> it;
+		if (collection instanceof CopyOnWriteArrayList || collection instanceof CopyOnWriteArraySet) {
+			it = collection;
+		} else {
+			// Iterate over a shallow-copy in case the consumer updates the original collection.
+			it = new ArrayList<>(collection);
+		}
+		for (T item : it) {
 			try {
 				consumer.accept(item);
 			} catch (Throwable t) {
